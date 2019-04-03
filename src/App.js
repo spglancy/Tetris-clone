@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+
+import GridBoard from './components/gridBoard'
+
+
 import './App.css';
-import GridSquare from './gridSquare'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-        <h1 className="App-title">Tetris Redux</h1>
+          <h1 className="App-title">Tetris Redux</h1>
         </header>
-        <GridSquare color="1" />
+        <GridBoard />
+
       </div>
     );
   }
