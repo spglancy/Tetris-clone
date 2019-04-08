@@ -1,25 +1,85 @@
 import React, { Component } from 'react'
 import GridSquare from './gridSquare'
-
+import { connect } from 'react-redux'
+import { moveDown } from '../actions'
+import { shapes } from '../utils'
 // Represents a 10 x 18 grid of grid squares
 
 class GridBoard extends Component {
+  constructor(props) {
+    super(props)
 
-  // generates an array of 18 rows, each containing 10 GridSquares.
-  makeGrid() {
-    const grid = []
-    for (let row = 0; row < 18; row ++) {
-      grid.push([])
-      for (let col = 0; col < 10; col ++) {
-        grid[row].push(<GridSquare key={`${col}${row}`} color="1" />)
-      }
-    }
-
-    return grid
+    this.lastUpdateTime = 0
+    this.progressTime = 0
   }
 
+  componentDidMount() {
+    window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  // Handle game updates
+  update(time) {
+    // If the game is is running we want to request a callback at the next animation frame.
+    window.requestAnimationFrame(this.update.bind(this))
+    if (!this.props.isRunning) {
+      return
+    }
+
+    // If lastUpdateTime not been set, set it to the current time.
+    if (!this.lastUpdateTime) {
+      this.lastUpdateTime = time
+    }
+
+    // Calculate delta time and progress time
+    const deltaTime = time - this.lastUpdateTime
+    this.progressTime += deltaTime
+
+    // If the progress time is greater than speed move the block down
+    if (this.progressTime > this.props.speed) {
+      this.props.moveDown()
+      this.progressTime = 0
+    }
+
+    // set the last update time.
+    this.lastUpdateTime = time
+}
+
+  makeGrid() {
+  // collect properties mapped to props from state.
+  const { grid, shape, rotation, x, y } = this.props
+  // get the block which is the current shape the player is controlling
+  const block = shapes[shape][rotation]
+  const blockColor = shape
+  // map rows
+  return grid.map((rowArray, row) => {
+    // map columns
+    console.log("yeet")
+    
+    return rowArray.map((square, col) => {
+      // Find the block x and y on the shape grid
+      // By subtracting the x and y from the col and the row we get the position of the upper left corner of the block array as if it was superimposed over the main grid
+      const blockX = col - x
+      const blockY = row - y
+      let color = square
+      // Map current falling block to grid.
+      // For any squares that fall on the grid we need to look at the block array and see if there is a 1 in this case we use the block color. if (blockX >= 0 && blockX < block.length && blockY >= 0 && blockY < block.length) {
+      if (blockX >= 0 && blockX < block.length && blockY >= 0 && blockY < block.length) {
+        color = block[blockY][blockX] === 0 ? color : blockColor
+      }
+      // Generate a unique key for every block
+      const k = row * grid[0].length + col;
+      // Generate a grid square
+      return (<GridSquare
+              key={k}
+              square={square}
+              color={color}>{square}
+            </GridSquare>)
+    })
+  })
+}
+
   // The components generated in makeGrid are rendered in div.grid-board
-  render () {
+  render() {
     return (
       <div className='grid-board'>
         {this.makeGrid()}
@@ -28,4 +88,22 @@ class GridBoard extends Component {
   }
 }
 
-export default GridBoard
+const mapStateToProps = (state) => {
+  return {
+    grid: state.game.grid,
+    shape: state.game.shape,
+    rotation: state.game.rotation,
+    x: state.game.x,
+    y: state.game.y,
+    speed: state.game.speed,
+    isRunning: state.game.isRunning
+  }
+}
+
+const mapDispatchToProps = () => {
+  return {
+    moveDown
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(GridBoard)
