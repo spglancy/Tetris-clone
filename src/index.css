@@ -21,7 +21,6 @@ code {
 
 /* App */
 .App {
-
   display: grid;
   width: 100vw;
 
@@ -29,7 +28,7 @@ code {
   /* Defines three columns of `--col-side`, `--col-center`, and `--col-side` widths. */
   grid-template-columns: 1fr calc(var(--tile-size)*10) 1fr;
   /* Defines three rows of `100px`, `--grid-height`, and 100px. */
-  grid-template-rows: 100px var(--grid-height) 100px;
+  grid-template-rows: 50px var(--grid-height) 100px;
 
 /* This defines the areas on the grid with names: 'h', 'l', 'c', 'r',
 and 'b'. The '.' represents an empty cell on the grid. */
@@ -39,14 +38,6 @@ and 'b'. The '.' represents an empty cell on the grid. */
 }
 
 @media (max-width: 768px) {
-  /* .App {
-    grid-template-columns: 1fr calc(var(--tile-size)*10);
-    grid-template-rows: 100px calc(var(--grid-height)/2) calc(var(--grid-height)/2) 100px;
-    grid-template-areas: "h h"
-                         "l c"
-                         "r c"
-                         ". b";
-  } */
   .App {
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 50px 65px var(--grid-size) 50px;
@@ -175,7 +166,6 @@ and 'b'. The '.' represents an empty cell on the grid. */
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-content: center;
   height: 60%;
   width: 90%;
   margin: 10px;
@@ -186,6 +176,10 @@ and 'b'. The '.' represents an empty cell on the grid. */
 @media (max-width: 768px) {
   .score-board {
     flex-direction: row;
+    height: 100%;
+    align-items: center;
+    justify-self: center;
+    margin: 0;
   }
 }
 
