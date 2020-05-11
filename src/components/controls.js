@@ -9,32 +9,31 @@ class Controls extends Component {
 
     return (
       // for all the below, Notice the function returns if `isRunning` is `false` (`!isRunning`), or (`||`) `gameOver` is `true`.
-    <div className="controls">
-    {/* left */}
-    <button className="control-button" onClick={(e) => {
-        console.log(isRunning, gameOver)
-        if (!isRunning || gameOver) { return }
-        this.props.moveLeft()
-    }}>Left</button>
+      <div className="controls">
+        {/* left */}
+        <button className="control-button" onClick={(e) => {
+          if (!isRunning || gameOver) { return }
+          this.props.moveLeft()
+        }}>Left</button>
 
-    {/* right */}
-    <button className="control-button" onClick={(e) => {
-        if (!isRunning || gameOver) { return }
-        this.props.moveRight()
-    }}>Right</button>
+        {/* right */}
+        <button className="control-button" onClick={(e) => {
+          if (!isRunning || gameOver) { return }
+          this.props.moveRight()
+        }}>Right</button>
 
-    {/* rotate */}
-    <button className="control-button" onClick={(e) => {
-        if (!isRunning || gameOver) { return }
-        this.props.rotate()
-    }}>Rotate</button>
+        {/* rotate */}
+        <button className="control-button" onClick={(e) => {
+          if (!isRunning || gameOver) { return }
+          this.props.rotate()
+        }}>Rotate</button>
 
-    {/* down */}
-    <button className="control-button" onClick={(e) => {
-        if (!isRunning || gameOver) { return }
-        this.props.moveDown()
-    }}>Down</button>
-</div>
+        {/* down */}
+        <button className="control-button" onClick={(e) => {
+          if (!isRunning || gameOver) { return }
+          this.props.moveDown()
+        }}>Down</button>
+      </div>
     )
   }
 }
@@ -48,10 +47,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-      moveRight,
-      moveLeft,
-      moveDown,
-      rotate
+    moveRight,
+    moveLeft,
+    moveDown,
+    rotate
   }
 }
 

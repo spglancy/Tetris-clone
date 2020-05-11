@@ -1,4 +1,6 @@
 body {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -19,17 +21,13 @@ code {
 
 /* App */
 .App {
-  --col-side: calc(var(--tile-size) * 4);
-  --col-center: calc(var(--tile-size) * 10);
-  --grid-height: calc(var(--tile-size) * 18);
 
-  width: calc(var(--tile-size) * (4 + 1 + 10 + 1 + 4));
-  margin: auto;
   display: grid;
+  width: 100vw;
 
-  grid-gap: var(--tile-size) var(--tile-size);
+  grid-gap: 10px;
   /* Defines three columns of `--col-side`, `--col-center`, and `--col-side` widths. */
-  grid-template-columns: var(--col-side) var(--col-center) var(--col-side);
+  grid-template-columns: 1fr calc(var(--tile-size)*10) 1fr;
   /* Defines three rows of `100px`, `--grid-height`, and 100px. */
   grid-template-rows: 100px var(--grid-height) 100px;
 
@@ -37,7 +35,26 @@ code {
 and 'b'. The '.' represents an empty cell on the grid. */
   grid-template-areas: "h h h"
                        "l c r"
-                       ". b .";
+                       "b b b";
+}
+
+@media (max-width: 768px) {
+  /* .App {
+    grid-template-columns: 1fr calc(var(--tile-size)*10);
+    grid-template-rows: 100px calc(var(--grid-height)/2) calc(var(--grid-height)/2) 100px;
+    grid-template-areas: "h h"
+                         "l c"
+                         "r c"
+                         ". b";
+  } */
+  .App {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 50px 65px var(--grid-size) 50px;
+    grid-template-areas: "h h"
+                         "l r"
+                         "c c"
+                         "b b"
+  }
 }
 
 .App-header {
@@ -80,7 +97,6 @@ and 'b'. The '.' represents an empty cell on the grid. */
   --cols: 10;
   --rows: 18;
   --tile-size: 20px;
-  --border-width: 5px;
 }
 
 /* Colors */
@@ -121,7 +137,7 @@ and 'b'. The '.' represents an empty cell on the grid. */
   border-style: solid;
   width: var(--tile-size);
   height: var(--tile-size);
-  border-width: var(--border-width);
+  border-width: 1px;
   border-left-color: var(--border-left-color);
   border-top-color: var(--border-top-color);
   border-right-color: var(--border-right-color);
@@ -140,6 +156,7 @@ and 'b'. The '.' represents an empty cell on the grid. */
   grid-gap: 0;
   align-self: flex-start;
   grid-area: c;
+  margin: auto;
 }
 
 /* Next Block */
@@ -148,22 +165,39 @@ and 'b'. The '.' represents an empty cell on the grid. */
   grid-template-columns: repeat(4, var(--tile-size));
   align-self: flex-start;
   grid-area: l;
+  margin: 10px;
+  justify-self: flex-end;
 }
 
 /* Score Board */
 .score-board {
   grid-area: r;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  height: 60%;
+  width: 90%;
+  margin: 10px;
+  justify-self: flex-start;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .score-board {
+    flex-direction: row;
+  }
 }
 
 .score-board-button {
-  padding: 0;
-  display: block;
-  padding: 1em;
-  border-width: 5px;
-  border-top-color: var(--button-color-t);
-  border-left-color: var(--button-color-l);
-  border-right-color: var(--button-color-r);
-  border-bottom-color: var(--button-color-b);
+  padding: 15px;
+  height: max-content;
+  width: max-content;
+  border: 1px solid rgb(62, 115, 230);
+  color: rgb(62, 115, 230);
+  background: white;
+  font-weight: 600;
+  border-radius: 5px;
 }
 
 /* controls */
@@ -171,19 +205,37 @@ and 'b'. The '.' represents an empty cell on the grid. */
   grid-area: b;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+@media (min-width: 769px) {
+  .controls {
+    width: 30%;
+    margin: auto;
+  }
 }
 
 .control-button {
-  --size: calc(var(--tile-size) * 2.5);
-  width: var(--size);
-  height: var(--size);
-  text-align: center;
-  display: block;
-  border-width: 5px;
-  border-top-color: var(--button-color-t);
-  border-left-color: var(--button-color-l);
-  border-right-color: var(--button-color-r);
-  border-bottom-color: var(--button-color-b);
+  width: max-content;
+  height: max-content;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(62, 115, 230);
+  color: rgb(62, 115, 230);
+  background: white;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    width: 80%;
+    margin: auto;
+  }
+
+  .control-button {
+    font-size: .7em;
+  }
 }
 
 /* Message Popup - These styles apply to the `MessagePopup` container. With `position:absolute` this element can be placed anywhere on the screen, `left, top, transform:translate` perform this function.*/

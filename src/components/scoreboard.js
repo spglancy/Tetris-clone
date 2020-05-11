@@ -10,16 +10,17 @@ class ScoreBoard extends Component {
 
     return (
       <div className="score-board">
-        <div>Score:{ score }</div>
-        <div>Level: 1</div>
-
+        <div>
+          <div>Score:{score}</div>
+          <div>Level: 1</div>
+        </div>
         <button className="score-board-button" onClick={(e) => {
           if (gameOver) { return }
           isRunning ? pause() : resume()
         }}>{isRunning ? "Pause" : "Resume"}</button>
 
         <button className="score-board-button" onClick={(e) => {
-            restart()
+          restart()
         }}>Restart</button>
 
       </div>
